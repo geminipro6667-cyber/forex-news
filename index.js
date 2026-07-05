@@ -12,85 +12,90 @@ const NEWS_API_URL = 'https://nfs.faireconomy.media/ff_calendar_thisweek.json';
 const CHECK_INTERVAL = 15000; // ১৫ সেকেন্ড
 const NOTIFY_BEFORE_MINUTES = 5; // ৫ মিনিট আগে
 
-// ---------- ভাষা ডিকশনারি (ইংরেজি + বাংলা) ----------
+// ---------- ভাষা ডিকশনারি (শুধু High Impact-এর জন্য) ----------
 const LANG = {
   en: {
     start: `🎯 **Welcome to Forex News Bot!**
 
-You are subscribed by default. You will get High Impact news alerts.
+You will get **High Impact** news alerts only.
 
 📌 **Commands:**
 /subscribe — Turn on notifications
 /unsubscribe — Turn off notifications
 /language — Change language (English/Bengali)
-/status — Check your status
-/next — View upcoming news
+/status — Your status
+/next — Upcoming High Impact news
 /help — Help`,
-    pre_notify: `🔔 **Upcoming News Alert** 🔔
+
+    pre_notify: `🔴 **HIGH IMPACT NEWS** 🔴
 ━━━━━━━━━━━━━━━━━━━━━━
 📅 **{title}** ({country})
 ⏰ **Time:** {time} (BD Time)
-📊 **Impact:** {emoji} {impact}
+📊 Impact: 🔴 High
 ━━━━━━━━━━━━━━━━━━━━━━
 📈 **Forecast:** {forecast}
 📉 **Previous:** {previous}
 ━━━━━━━━━━━━━━━━━━━━━━
 ⏳ **Releasing in {minutes} minutes!**
-💡 **Tip:** Higher Actual than Forecast usually strengthens the currency.`,
-    result_notify: `✅ **News Released!** ✅
+💡 Tip: Higher Actual than Forecast = Stronger currency.`,
+
+    result_notify: `✅ **HIGH IMPACT NEWS RELEASED!** ✅
 ━━━━━━━━━━━━━━━━━━━━━━
 📅 **{title}** ({country})
 ⏰ **Time:** {time} (BD Time)
-📊 **Impact:** {emoji} {impact}
+📊 Impact: 🔴 High
 ━━━━━━━━━━━━━━━━━━━━━━
-📈 **Actual:** {actual} ⬅️ Result!
+📈 **Actual:** {actual} ⬅️ RESULT!
 📊 **Forecast:** {forecast}
 📉 **Previous:** {previous}
 ━━━━━━━━━━━━━━━━━━━━━━
 📊 **Analysis:**
 {analysis}
 ━━━━━━━━━━━━━━━━━━━━━━`,
-    analysis_high: '📈 **Actual > Forecast** — This currency may **strengthen**!',
-    analysis_low: '📉 **Actual < Forecast** — This currency may **weaken**!',
-    analysis_equal: '⚖️ Actual and Forecast are almost equal. Market may remain neutral.',
+
+    analysis_high: '📈 **Actual > Forecast** — Currency may **strengthen**!',
+    analysis_low: '📉 **Actual < Forecast** — Currency may **weaken**!',
+    analysis_equal: '⚖️ Actual ≈ Forecast. Market may remain neutral.',
     analysis_wait: '⏳ Waiting for result...',
     analysis_error: '⚠️ Could not parse data.',
     subscribed: '✅ Notifications **enabled**!',
     unsubscribed: '🔕 Notifications **disabled**. Use /subscribe to re-enable.',
     lang_changed: '🌐 Language changed to English!',
-    no_news: '📭 No High/Medium impact news in the next 24 hours.',
-    help_text: '📚 **Help Guide:**\n\nThis bot provides Forex news alerts.\n🔹 /start — Start the bot\n🔹 /subscribe — Turn on alerts\n🔹 /unsubscribe — Turn off alerts\n🔹 /language — Change language\n🔹 /status — Your status\n🔹 /next — Upcoming news\n🔹 /help — This message',
+    no_news: '📭 No High Impact news in the next 24 hours.',
+    help_text: '📚 **Help Guide:**\n\n🔹 /start — Start\n🔹 /subscribe — Enable alerts\n🔹 /unsubscribe — Disable alerts\n🔹 /language — Change language\n🔹 /status — Your status\n🔹 /next — Upcoming High Impact news\n🔹 /help — This message\n\n⚠️ Only **High Impact** news are shown.',
     status_text: '📊 **Your Status:**\nNotifications: {status}\nLanguage: {lang}',
     lang_prompt: '🌐 Please select your language:'
   },
   bn: {
     start: `🎯 **Forex News Bot-এ স্বাগতম!**
 
-আপনি ডিফল্টভাবে সাবস্ক্রাইবড আছেন। High Impact নিউজের আপডেট পাবেন।
+শুধুমাত্র **High Impact (লাল)** নিউজের আপডেট পাবেন।
 
 📌 **কমান্ডসমূহ:**
-/subscribe — নোটিফিকেশন চালু করুন
-/unsubscribe — নোটিফিকেশন বন্ধ করুন
-/language — ভাষা পরিবর্তন করুন (ইংরেজি/বাংলা)
-/status — আপনার স্ট্যাটাস দেখুন
-/next — আসন্ন নিউজ দেখুন
+/subscribe — নোটিফিকেশন চালু
+/unsubscribe — নোটিফিকেশন বন্ধ
+/language — ভাষা পরিবর্তন
+/status — আপনার স্ট্যাটাস
+/next — আসন্ন High Impact নিউজ
 /help — সাহায্য`,
-    pre_notify: `🔔 **আসন্ন নিউজ সতর্কতা** 🔔
+
+    pre_notify: `🔴 **HIGH IMPACT নিউজ** 🔴
 ━━━━━━━━━━━━━━━━━━━━━━
 📅 **{title}** ({country})
 ⏰ **সময়:** {time} (বাংলাদেশ সময়)
-📊 **ইমপ্যাক্ট:** {emoji} {impact}
+📊 ইমপ্যাক্ট: 🔴 High
 ━━━━━━━━━━━━━━━━━━━━━━
 📈 **Forecast:** {forecast}
 📉 **Previous:** {previous}
 ━━━━━━━━━━━━━━━━━━━━━━
 ⏳ **রিলিজ হতে {minutes} মিনিট বাকি!**
-💡 **টিপ:** Forecast এর চেয়ে Actual বেশি আসলে কারেন্সি শক্তিশালী হয়।`,
-    result_notify: `✅ **নিউজ রিলিজ হয়েছে!** ✅
+💡 টিপ: Forecast এর চেয়ে Actual বেশি মানে কারেন্সি শক্তিশালী।`,
+
+    result_notify: `✅ **HIGH IMPACT নিউজ রিলিজ!** ✅
 ━━━━━━━━━━━━━━━━━━━━━━
 📅 **{title}** ({country})
 ⏰ **সময়:** {time} (বাংলাদেশ সময়)
-📊 **ইমপ্যাক্ট:** {emoji} {impact}
+📊 ইমপ্যাক্ট: 🔴 High
 ━━━━━━━━━━━━━━━━━━━━━━
 📈 **Actual:** {actual} ⬅️ রেজাল্ট!
 📊 **Forecast:** {forecast}
@@ -99,17 +104,18 @@ You are subscribed by default. You will get High Impact news alerts.
 📊 **বিশ্লেষণ:**
 {analysis}
 ━━━━━━━━━━━━━━━━━━━━━━`,
-    analysis_high: '📈 **Actual > Forecast** — এই কারেন্সি **শক্তিশালী** হতে পারে!',
-    analysis_low: '📉 **Actual < Forecast** — এই কারেন্সি **দুর্বল** হতে পারে!',
-    analysis_equal: '⚖️ Actual এবং Forecast প্রায় সমান। বাজার নিরপেক্ষ থাকতে পারে।',
+
+    analysis_high: '📈 **Actual > Forecast** — কারেন্সি **শক্তিশালী** হতে পারে!',
+    analysis_low: '📉 **Actual < Forecast** — কারেন্সি **দুর্বল** হতে পারে!',
+    analysis_equal: '⚖️ Actual ≈ Forecast. বাজার নিরপেক্ষ থাকতে পারে।',
     analysis_wait: '⏳ রেজাল্ট আসার অপেক্ষায়...',
     analysis_error: '⚠️ ডেটা পার্স করতে পারিনি।',
-    subscribed: '✅ নোটিফিকেশন **চালু** করা হয়েছে!',
-    unsubscribed: '🔕 নোটিফিকেশন **বন্ধ** করা হয়েছে। পুনরায় চালু করতে /subscribe দিন।',
-    lang_changed: '🌐 ভাষা বাংলায় পরিবর্তন করা হয়েছে!',
-    no_news: '📭 আগামী ২৪ ঘন্টায় কোনো High/Medium ইমপ্যাক্ট নিউজ নেই।',
-    help_text: '📚 **সাহায্য গাইড:**\n\nএই বট Forex নিউজ সম্পর্কে সতর্কতা দেয়।\n🔹 /start — বট চালু করুন\n🔹 /subscribe — নোটিফিকেশন চালু\n🔹 /unsubscribe — নোটিফিকেশন বন্ধ\n🔹 /language — ভাষা পরিবর্তন\n🔹 /status — আপনার স্ট্যাটাস\n🔹 /next — আসন্ন নিউজ দেখুন\n🔹 /help — এই মেসেজ',
-    status_text: '📊 **আপনার স্ট্যাটাস:**\nনোটিফিকেশন: {status}\nভাষা: {lang}',
+    subscribed: '✅ নোটিফিকেশন **চালু**!',
+    unsubscribed: '🔕 নোটিফিকেশন **বন্ধ**। /subscribe দিয়ে চালু করুন।',
+    lang_changed: '🌐 ভাষা বাংলায় পরিবর্তন!',
+    no_news: '📭 আগামী ২৪ ঘন্টায় কোনো High Impact নিউজ নেই।',
+    help_text: '📚 **সাহায্য:**\n\n🔹 /start — শুরু\n🔹 /subscribe — নোটিফিকেশন চালু\n🔹 /unsubscribe — বন্ধ\n🔹 /language — ভাষা পরিবর্তন\n🔹 /status — স্ট্যাটাস\n🔹 /next — আসন্ন High Impact নিউজ\n🔹 /help — এই মেসেজ\n\n⚠️ শুধুমাত্র **High Impact** নিউজ দেখানো হয়।',
+    status_text: '📊 **স্ট্যাটাস:**\nনোটিফিকেশন: {status}\nভাষা: {lang}',
     lang_prompt: '🌐 আপনার ভাষা নির্বাচন করুন:'
   }
 };
@@ -127,12 +133,6 @@ function formatBDTime(dateString) {
   });
 }
 
-function getImpactEmoji(impact) {
-  if (impact === 'High') return '🔴';
-  if (impact === 'Medium') return '🟡';
-  return '🟢';
-}
-
 function getAnalysis(actual, forecast, lang = 'en') {
   if (actual === null || forecast === null || actual === '' || forecast === '') {
     return LANG[lang].analysis_wait;
@@ -146,7 +146,6 @@ function getAnalysis(actual, forecast, lang = 'en') {
   return LANG[lang].analysis_low;
 }
 
-// ---------- টেক্সট রেন্ডার ----------
 async function getText(chatId, key, variables = {}) {
   const user = await getQuery('SELECT language FROM users WHERE chat_id = ?', [String(chatId)]);
   const lang = (user && user.language) || 'en';
@@ -157,7 +156,7 @@ async function getText(chatId, key, variables = {}) {
   return text;
 }
 
-// ---------- নিউজ ফেচ ও প্রসেসিং ----------
+// ---------- নিউজ ফেচ — শুধু High Impact ----------
 async function fetchAndProcessNews() {
   try {
     const response = await fetch(NEWS_API_URL);
@@ -166,11 +165,14 @@ async function fetchAndProcessNews() {
     const now = Date.now();
 
     for (const event of events) {
-      if (event.impact !== 'High' && event.impact !== 'Medium') continue;
+      // শুধু High Impact নিবে
+      if (event.impact !== 'High') continue;
+
       const eventTime = new Date(event.date).getTime();
       const timeDiff = eventTime - now;
       const eventId = event.id || `${event.title}_${event.date}`;
 
+      // ৫ মিনিট আগে সতর্কতা
       if (timeDiff > 0 && timeDiff <= NOTIFY_BEFORE_MINUTES * 60 * 1000) {
         const alreadyNotified = await getQuery(
           'SELECT * FROM notifications WHERE event_id = ? AND type = ?',
@@ -182,6 +184,7 @@ async function fetchAndProcessNews() {
         }
       }
 
+      // রেজাল্ট পাওয়া গেলে
       if (event.actual !== null && event.actual !== '') {
         const alreadyNotified = await getQuery(
           'SELECT * FROM notifications WHERE event_id = ? AND type = ?',
@@ -198,26 +201,14 @@ async function fetchAndProcessNews() {
   }
 }
 
-async function sendToAllSubscribers(message, parseMode = 'Markdown') {
-  const users = await allQuery('SELECT chat_id FROM users WHERE is_subscribed = 1');
-  for (const user of users) {
-    try {
-      await bot.telegram.sendMessage(user.chat_id, message, { parse_mode: parseMode });
-    } catch (err) {
-      console.error(`Failed to send to ${user.chat_id}:`, err.message);
-    }
-  }
-}
-
 async function sendPreNotification(event) {
-  const users = await allQuery('SELECT chat_id FROM users');
+  const users = await allQuery('SELECT chat_id, language FROM users WHERE is_subscribed = 1');
   for (const user of users) {
+    const lang = user.language || 'en';
     const msg = await getText(user.chat_id, 'pre_notify', {
       title: event.title,
       country: event.country,
       time: formatBDTime(event.date),
-      emoji: getImpactEmoji(event.impact),
-      impact: event.impact,
       forecast: event.forecast || 'N/A',
       previous: event.previous || 'N/A',
       minutes: NOTIFY_BEFORE_MINUTES
@@ -229,16 +220,14 @@ async function sendPreNotification(event) {
 }
 
 async function sendResultNotification(event) {
-  const users = await allQuery('SELECT chat_id FROM users');
+  const users = await allQuery('SELECT chat_id, language FROM users WHERE is_subscribed = 1');
   for (const user of users) {
-    const lang = (user.language) || 'en';
+    const lang = user.language || 'en';
     const analysis = getAnalysis(event.actual, event.forecast, lang);
     const msg = await getText(user.chat_id, 'result_notify', {
       title: event.title,
       country: event.country,
       time: formatBDTime(event.date),
-      emoji: getImpactEmoji(event.impact),
-      impact: event.impact,
       actual: event.actual,
       forecast: event.forecast || 'N/A',
       previous: event.previous || 'N/A',
@@ -256,12 +245,9 @@ bot.start(async (ctx) => {
   const user = await getQuery('SELECT * FROM users WHERE chat_id = ?', [chatId]);
   if (!user) {
     await runQuery('INSERT INTO users (chat_id) VALUES (?)', [chatId]);
-    const msg = await getText(chatId, 'start');
-    await ctx.reply(msg, { parse_mode: 'Markdown' });
-  } else {
-    const msg = await getText(chatId, 'start');
-    await ctx.reply(msg, { parse_mode: 'Markdown' });
   }
+  const msg = await getText(chatId, 'start');
+  await ctx.reply(msg, { parse_mode: 'Markdown' });
 });
 
 bot.command('subscribe', async (ctx) => {
@@ -310,7 +296,7 @@ bot.command('next', async (ctx) => {
     const now = Date.now();
     const upcoming = events
       .filter(e => {
-        if (e.impact !== 'High' && e.impact !== 'Medium') return false;
+        if (e.impact !== 'High') return false;
         return new Date(e.date).getTime() > now;
       })
       .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -321,10 +307,10 @@ bot.command('next', async (ctx) => {
       return ctx.reply(msg);
     }
 
-    let msg = '📰 **Upcoming News:**\n━━━━━━━━━━━━━━━━━━━━━━\n';
+    let msg = '🔴 **Upcoming High Impact News:**\n━━━━━━━━━━━━━━━━━━━━━━\n';
     for (const e of upcoming) {
       msg += `📅 **${e.title}** (${e.country})\n`;
-      msg += `⏰ ${formatBDTime(e.date)} | ${getImpactEmoji(e.impact)} ${e.impact}\n`;
+      msg += `⏰ ${formatBDTime(e.date)} | 🔴 High\n`;
       msg += `📊 Forecast: ${e.forecast || 'N/A'}\n`;
       msg += '━━━━━━━━━━━━━━━━━━━━━━\n';
     }
@@ -339,7 +325,7 @@ bot.command('help', async (ctx) => {
   await ctx.reply(msg, { parse_mode: 'Markdown' });
 });
 
-// ---------- ইনলাইন কীবোর্ড অ্যাকশন ----------
+// ---------- ইনলাইন অ্যাকশন ----------
 bot.action('lang_en', async (ctx) => {
   const chatId = String(ctx.chat.id);
   await runQuery('UPDATE users SET language = ? WHERE chat_id = ?', ['en', chatId]);
@@ -354,7 +340,7 @@ bot.action('lang_bn', async (ctx) => {
   await ctx.editMessageText('🌐 ভাষা বাংলায় পরিবর্তন করা হয়েছে!');
 });
 
-// ---------- রেন্ডারের জন্য HTTP সার্ভার ----------
+// ---------- HTTP সার্ভার (Render-এর জন্য) ----------
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 10000;
